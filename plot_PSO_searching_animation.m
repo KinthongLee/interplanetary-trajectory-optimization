@@ -55,7 +55,31 @@ pathTokernel = fullfile(currentDir, 'code', 'kernel');
 % -------------------------------------------------------------------------
 %-----------------------------Load Kernels---------------------------------
 % -------------------------------------------------------------------------
-% Load Kernels not in parfor loop
+% Load the kernels for SPICE 
+
+% Start the SPMD block for parallel execution (parloop)
+spmd
+    % List all .bsp files in the directory
+    bspFiles = dir(fullfile(pathTokernel, '*.bsp'));
+    
+    % List all .txt files in the directory
+    txtFiles = dir(fullfile(pathTokernel, '*.txt'));
+    
+    % Combine the .bsp and .txt files into a single array
+    allFiles = [bspFiles; txtFiles];
+    
+    % Iterate over all files to load them
+    for k = 1:length(allFiles)
+        % Construct the full path for each file
+        filePath = fullfile(pathTokernel, allFiles(k).name);
+        
+        % Load the file using cspice_furnsh
+        cspice_furnsh(filePath);
+    end
+end
+
+
+% Load Kernels for non parfor loop
 % List all .bsp files in the directory
 bspFiles = dir(fullfile(pathTokernel, '*.bsp'));
 
@@ -69,11 +93,12 @@ allFiles = [bspFiles; txtFiles];
 for k = 1:length(allFiles)
     % Construct the full path for each file
     filePath = fullfile(pathTokernel, allFiles(k).name);
-
+    
     % Load the file using cspice_furnsh
     cspice_furnsh(filePath);
 end
 % -------------------------------------------------------------------------
+
 
 
 
@@ -240,8 +265,8 @@ for PHA = 1:1
                 for ite = 1 : length_ite
                     parfor i = 1 : length_i
                         Particle_Params = [];
-                        Particle_Params.beta_coeff = Position(i,1:6,ite);
-                        Particle_Params.gamma_coeff = Position(i,7:12,ite);
+                        Particle_Params.thetaIN_coeff = Position(i,1:6,ite);
+                        Particle_Params.thetaOUT_coeff = Position(i,7:12,ite);
                         Particle_Params.v_inf_abs = Position(i,13,ite);
                         Particle_Params.RA = Position(i,14,ite);
                         Particle_Params.DEC = Position(i,15,ite);
