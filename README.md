@@ -56,3 +56,5 @@ Below are some animations showing the process of PSO searching history:
 https://github.com/user-attachments/assets/d1c2cffd-a14f-4da8-8fa6-f66ab9e65d89
 
 https://github.com/user-attachments/assets/4bf1cb29-a44d-48b4-b9f1-c532c3f5f9df
+
+![轨道转移示意图](https://github.com/KinthongLee/interplanetary_trajectory_optimization/blob/main/output_result/figure/detailed_trajectory/Modified/99942Apophis_transfer.png)
