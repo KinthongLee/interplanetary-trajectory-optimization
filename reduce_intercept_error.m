@@ -16,10 +16,10 @@
 % ktlee3819@gmail.com
 %==========================================================================
 % This code is used for some result generated from main.m, where the 
-% interception error is low enough (example not less than 1m). This code
-% will read date from result/matfile/ and load the position value for all
-% particles at lasted iteration. And keep simulation until the desired 
-% interception error is reached.
+% interception error is not low enough (example not less than 1m). This 
+% code will read date from /result/matfile/ and load the position value 
+% for all particles at lasted iteration. And keep simulation until the
+% desired interception error is reached.
 %--------------------------------------------------------------------------
 
 

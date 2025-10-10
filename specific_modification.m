@@ -15,11 +15,10 @@
 % Feels free to contact me for any inquiry or cooperation!
 % ktlee3819@gmail.com
 %==========================================================================
-% Deflecting Potentially Hazardous Asteroid (PHA) by using 
-% Impulsive-Continous-Low_Thrust Acceleration maneuver.
-% Solve the opmiziming problem using Particle Swarm Optimization (PSO)
-% The code is easily to be modified to solve any interplanetary trajectory
-% optimization problem, by modifying the costfunction
+% This is exactly the same as main_code.m, just do some specific
+% modification to get some specific result. It is required to fully
+% understand hows every code works before using this
+% specific_modification.m
 %--------------------------------------------------------------------------
 
 
@@ -380,10 +379,11 @@ for PHA = 1 : 1
     
     
         % save.mat file
-        save(filename,'out_final','out_first');
+        % save(filename,'out_final','out_first');
+        save(filename,'out_final');
 
 
-        % Write table to .xlsx file (without relative Gain rate)
+        % Write table to .xlsx file (without relative Gain ra te)
         writetable(data,'temporary_result.xlsx')
     end
     toc
