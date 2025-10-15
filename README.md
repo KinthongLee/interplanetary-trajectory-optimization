@@ -2,6 +2,7 @@
 ## Introduction
 This model primarily generates the data and figures used in the Acta Astronautice paper titled "Trajectories Optimization for Asteroid Kinetic Deflection Missions: Potential Benefits of Eccentric Impacts". It includes all computational models and result processing. Everyone is welcome to use and modify this code! Just remember to reference the paper! If you publish your work, please cite my article! I would greatly appreciate it!
 
+- Lee, Kinthong, Hexi Baoyin, and Zhaokui Wang. "Trajectories optimization for asteroid kinetic deflection missions: Potential benefits of eccentric impacts." Acta Astronautica (2025).
 - Lee, Kinthong, Zhengqing Fang, and Zhaokui Wang. "Investigation of the incremental benefits of eccentric collisions in kinetic deflection of potentially hazardous asteroids." Icarus 425 (2025): 116312.
    
 This model aims to solve impulse-low-thrust trajectory optimizing problem to deflect potentially hazardous asteroids. The model is coded by Matlab, and its working on both Window & MacOS system.
@@ -22,7 +23,7 @@ However for macOS, the first time running would need to approve some system perm
 - After the program finishes, it will automatically generate **`temporary_result.xlsx`** to **avoid overwriting** the original **`PHA_table.xlsx`** with incorrect data.  
 - The **.mat** files result will be stored in:  
   **`/interplanetary_trajectory_optimization/output_result`**  
-  Make sure it is correct, then manually move it to:  
+  To prevent overwrite with incorrect data. Make sure it is correct, then only manually move it to:  
   **`/interplanetary_trajectory_optimization/output_result/matfile`**
 
 ---
