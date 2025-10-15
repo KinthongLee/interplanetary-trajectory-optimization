@@ -23,7 +23,7 @@ However for macOS, the first time running would need to approve some system perm
 - After the program finishes, it will automatically generate **`temporary_result.xlsx`** to **avoid overwriting** the original **`PHA_table.xlsx`** with incorrect data.  
 - The **.mat** files result will be stored in:  
   **`/interplanetary_trajectory_optimization/output_result`**  
-  Make sure it is correct, then manually move it to:  
+  To prevent overwrite with incorrect data. Make sure it is correct, then only manually move it to:  
   **`/interplanetary_trajectory_optimization/output_result/matfile`**
 
 ---
