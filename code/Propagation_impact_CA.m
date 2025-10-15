@@ -60,12 +60,12 @@ Y(4:6,1) = Y(4:6) + delta_v;
 % ----------------------- Propagation--------------------------------------
 % Impact to SOI, in Heliocentric
 delta_t_impact_SOI = et_SOI - et_impact;
-Y_impact_SOI = Ephemeris_heliocentric(Y, delta_t_impact_SOI, Particle_Params.impact_date);
+Y_impact_SOI = Propagation_heliocentric(Y, delta_t_impact_SOI, Particle_Params.impact_date);
 
 % SOI to CA + 1 days, in Geocentric
 delta_t_SOI_CA =  ( problem.date_CA + 1 - problem.date_SOI ) * 86400;
 Y_SOI_geocentric = Y_impact_SOI(end,2:7)' - Y_EARTH_SOI_heliocentric;
-Y_SOI_CA_geocentric = Ephemeris_Geocentric(Y_SOI_geocentric ,  delta_t_SOI_CA , problem.date_SOI);
+Y_SOI_CA_geocentric = Propagation_Geocentric(Y_SOI_geocentric ,  delta_t_SOI_CA , problem.date_SOI);
 % -------------------------------------------------------------------------
 
 % Distance between PHA & Earth

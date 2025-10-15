@@ -104,7 +104,7 @@ if et_impact > et_launch
 % ---------------- Propagation from launch date to impact date ------------
     tspan = [0, (et_impact - et_launch)/TU];
     % Propagate spacecraft from launch date to impact date
-    Y_spacecraft_launch_impact = Ephemeris_lowthrust_heliocentric(Y_launch, tspan, Particle_Params,problem);
+    Y_spacecraft_launch_impact = Propagation_lowthrust_heliocentric(Y_launch, tspan, Particle_Params,problem);
     
     % Calculate interception error
     % Interception error = || r_spacecraft - r_PHA ||
