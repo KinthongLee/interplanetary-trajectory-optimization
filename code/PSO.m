@@ -29,7 +29,7 @@ function out = PSO(problem, params)
     VelocityMax = problem.VelocityMax;
 
     % Parameters of PSO
-    MaxIt = params.MaxIt;   % Maximum Number of Iterations
+    MaxIte = params.MaxIte;   % Maximum Number of Iterations
     nPop = params.nPop;     % Population Size (Swarm Size)
     ci = params.ci; 
     cc = params.cc;
@@ -55,7 +55,7 @@ function out = PSO(problem, params)
     empty_particle.Best.ImpactMass = [];
 
     % Create Population Array
-    particle = repmat(empty_particle, nPop, MaxIt);
+    particle = repmat(empty_particle, nPop, MaxIte);
 
     % Create Temporary Stored variable
     % This temporary variable is created due to the limitation of 
@@ -152,61 +152,61 @@ function out = PSO(problem, params)
 
 
 % ------------------------- Main Loop of PSO ------------------------------
-    for it=2:MaxIt
+    for ite=2:MaxIte
         parfor i=1:nPop
             % Update Velocity
-            particle(i,it).Velocity = ...
+            particle(i,ite).Velocity = ...
                   ci*(1+rand())/2*temporary(i).Velocity ...
                 + cc*rand()*(temporary(i).Best.Position - temporary(i).Position) ...
                 + cs*rand()*(GlobalBest.Position - temporary(i).Position);
 
 
             % Apply Velocity Limits
-            particle(i,it).Velocity = max(particle(i,it).Velocity, VelocityMin);
-            particle(i,it).Velocity = min(particle(i,it).Velocity, VelocityMax);
+            particle(i,ite).Velocity = max(particle(i,ite).Velocity, VelocityMin);
+            particle(i,ite).Velocity = min(particle(i,ite).Velocity, VelocityMax);
             % Update Temporary value
-            temporary(i).Velocity = particle(i,it).Velocity;
+            temporary(i).Velocity = particle(i,ite).Velocity;
             
 
             % Update Position
-            particle(i,it).Position = temporary(i).Position + particle(i,it).Velocity;
+            particle(i,ite).Position = temporary(i).Position + particle(i,ite).Velocity;
             % Apply Lower and Upper Bound Limits
-            particle(i,it).Position = max(particle(i,it).Position, PositionMin);
-            particle(i,it).Position = min(particle(i,it).Position, PositionMax);
+            particle(i,ite).Position = max(particle(i,ite).Position, PositionMin);
+            particle(i,ite).Position = min(particle(i,ite).Position, PositionMax);
             % Update Temporary value
-            temporary(i).Position = particle(i,it).Position;
+            temporary(i).Position = particle(i,ite).Position;
 
             % Evaluation, calculate the cost value by using CostFunction (Objective Function)
-            [particle(i,it).Cost, particle(i,it).Interception, particle(i,it).DeflectionDistance, particle(i,it).InterceptionAngle, particle(i,it).ImpactMass] = CostFunction(particle(i,it).Position);
-            temporary(i).Cost = particle(i,it).Cost;
+            [particle(i,ite).Cost, particle(i,ite).Interception, particle(i,ite).DeflectionDistance, particle(i,ite).InterceptionAngle, particle(i,ite).ImpactMass] = CostFunction(particle(i,ite).Position);
+            temporary(i).Cost = particle(i,ite).Cost;
 
             % Update Personal Best
-            if particle(i,it).Cost < temporary(i).Best.Cost
-                particle(i,it).Best.Position = particle(i,it).Position;
-                particle(i,it).Best.Cost = particle(i,it).Cost;
-                particle(i,it).Best.Interception = particle(i,it).Interception;
-                particle(i,it).Best.DeflectionDistance = particle(i,it).DeflectionDistance;
-                particle(i,it).Best.InterceptionAngle = particle(i,it).InterceptionAngle;
-                particle(i,it).Best.ImpactMass = particle(i,it).ImpactMass;
-                temporary(i).Best.Position = particle(i,it).Position;
-                temporary(i).Best.Cost = particle(i,it).Cost;
-                temporary(i).Best.Interception = particle(i,it).Interception;
-                temporary(i).Best.DeflectionDistance = particle(i,it).DeflectionDistance;
-                temporary(i).Best.InterceptionAngle = particle(i,it).InterceptionAngle;
-                temporary(i).Best.ImpactMass = particle(i,it).ImpactMass;
+            if particle(i,ite).Cost < temporary(i).Best.Cost
+                particle(i,ite).Best.Position = particle(i,ite).Position;
+                particle(i,ite).Best.Cost = particle(i,ite).Cost;
+                particle(i,ite).Best.Interception = particle(i,ite).Interception;
+                particle(i,ite).Best.DeflectionDistance = particle(i,ite).DeflectionDistance;
+                particle(i,ite).Best.InterceptionAngle = particle(i,ite).InterceptionAngle;
+                particle(i,ite).Best.ImpactMass = particle(i,ite).ImpactMass;
+                temporary(i).Best.Position = particle(i,ite).Position;
+                temporary(i).Best.Cost = particle(i,ite).Cost;
+                temporary(i).Best.Interception = particle(i,ite).Interception;
+                temporary(i).Best.DeflectionDistance = particle(i,ite).DeflectionDistance;
+                temporary(i).Best.InterceptionAngle = particle(i,ite).InterceptionAngle;
+                temporary(i).Best.ImpactMass = particle(i,ite).ImpactMass;
             end
         end
 
         % Update Global Best
         for j = 1 : nPop
-            if particle(j,it).Best.Cost < GlobalBest.Cost
-                GlobalBest = particle(j,it).Best;
+            if particle(j,ite).Best.Cost < GlobalBest.Cost
+                GlobalBest = particle(j,ite).Best;
             end   
         end
 
         % Display Iteration Information?
         if ShowIterInfo
-            fprintf('Iteration %i: Best Cost = %d, Best Interception = %d (m), Best Deflection Distance = %d (km)\n', it, GlobalBest.Cost, GlobalBest.Interception, GlobalBest.DeflectionDistance/1000)
+            fprintf('Iteration %i: Best Cost = %d, Best Interception = %d (m), Best Deflection Distance = %d (km)\n', ite, GlobalBest.Cost, GlobalBest.Interception, GlobalBest.DeflectionDistance/1000)
             disp(vpa(GlobalBest.Position,4))
         end
 
@@ -218,9 +218,9 @@ function out = PSO(problem, params)
         % if repeated runs still fail to produce a positive deflection distance, 
         % it is likely that the asteroid cannot be deflected
         % for example, as demonstrated in my paper with the case of 2017 VW13.
-        if it > 80
+        if ite > 80
             if GlobalBest.DeflectionDistance < 0
-                disp(it)
+                disp(ite)
                 break
             end
         end
