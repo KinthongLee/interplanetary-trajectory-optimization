@@ -2,6 +2,7 @@
 ## Introduction
 This model primarily generates the data and figures used in the Acta Astronautice paper titled "Trajectories Optimization for Asteroid Kinetic Deflection Missions: Potential Benefits of Eccentric Impacts". It includes all computational models and result processing. Everyone is welcome to use and modify this code! Just remember to reference the paper! If you publish your work, please cite my article! I would greatly appreciate it!
 
+- Lee, Kinthong, Hexi Baoyin, and Zhaokui Wang. "Trajectories optimization for asteroid kinetic deflection missions: Potential benefits of eccentric impacts." Acta Astronautica (2025).
 - Lee, Kinthong, Zhengqing Fang, and Zhaokui Wang. "Investigation of the incremental benefits of eccentric collisions in kinetic deflection of potentially hazardous asteroids." Icarus 425 (2025): 116312.
    
 This model aims to solve impulse-low-thrust trajectory optimizing problem to deflect potentially hazardous asteroids. The model is coded by Matlab, and its working on both Window & MacOS system.
