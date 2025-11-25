@@ -8,6 +8,10 @@
 % You are free to use and modify the code, but you MUST cite the following
 % papers:
 %
+% Lee, Kinthong, Hexi Baoyin, and Zhaokui Wang. "Trajectories optimization
+% for asteroid kinetic deflection missions: Potential benefits of eccentric
+% impacts." Acta Astronautica (2025).
+%
 % Lee, Kinthong, Zhengqing Fang, and Zhaokui Wang. "Investigation of the 
 % incremental benefits of eccentric collisions in kinetic deflection of 
 % potentially hazardous asteroids." Icarus 425 (2025): 116312.
