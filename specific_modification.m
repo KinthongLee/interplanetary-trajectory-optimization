@@ -103,11 +103,12 @@ end
 
 
 
-% -------------------------------------------------------------------------
+%--------------------------------------------------------------------------
 %------------------- Read data from PHA_table.xlsx ------------------------
-% -------------------------------------------------------------------------
+%--------------------------------------------------------------------------
 % Read PHA_table.xlsx
-data = readtable('PHA_table');
+filename = 'PHA_table.xlsx';
+data = readtable(filename, 'PreserveVariableNames', true);
 
 % Extract PHA name and ID code
 PHA_name = string(data.Object);
@@ -123,25 +124,49 @@ tokensMatrix = vertcat(tokens{:});
 tokensMatrix = vertcat(tokensMatrix{:});
 
 % Extract and convert each component
-year_CA = str2double(tokensMatrix(:,1));
+year_CA = str2double(tokensMatrix(:,1)); 
 date_CA = str2double(tokensMatrix(:,3));
 
 % Map the month abbreviations to month numbers and full names
 monthAbbreviations = {'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', ...
                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'};
 monthNumbers = 1:12;
-monthFullNames = {'January', 'February', 'March', 'April', 'May', ...
-                  'June', 'July', 'August', 'September', 'October', ...
-                  'November', 'December'};
+monthFullNames = {'January', 'February', 'March', 'April', 'May', 'June', ...
+                  'July', 'August', 'September', 'October', 'November', 'December'};
 
-% Create containers.Map to map month abbreviations to month numbers 
-% and full names
+% Create containers.Map to map month abbreviations to month numbers and full names
 monthNumMap = containers.Map(monthAbbreviations, monthNumbers);
 monthNameMap = containers.Map(monthAbbreviations, monthFullNames);
 
 % Convert month abbreviations to numbers and full names
 month_CA_num = cell2mat(values(monthNumMap, tokensMatrix(:,2)));
 month_CA_string = values(monthNameMap, tokensMatrix(:,2));
+
+% Extract position result
+% Extract the first 32 rows of 'BestPosition_COG' as a cell array of strings
+A_COG = data.BestPosition_COG(1:32);
+A_BIP = data.BestPosition_BIP(1:32);
+
+% Initialize the matrix
+A_COG1 = zeros(32, 17);
+A_BIP1 = zeros(32, 17);
+
+% Process each row and convert to numeric format
+for i = 1:32
+    str_COG = A_COG{i}; % Get the string
+    str_BIP = A_BIP{i}; % Get the string
+    
+    % Remove any square brackets if present
+    str_COG = erase(str_COG, {'[', ']'});
+    str_BIP = erase(str_BIP, {'[', ']'});
+    
+    % Convert the string of numbers into a numeric row vector
+    % the 18th column in NaN
+    A_COG1(i, :) = str2double(split(str_COG, ','))';
+    A_BIP1(i, :) = str2double(split(str_BIP, ','))';
+end
+Position_COG = A_COG1(1:32,1:17);
+Position_BIP = A_BIP1(1:32,1:17);
 % -------------------------------------------------------------------------
  
  
