@@ -321,7 +321,7 @@ for PHA = 1 : 1
 % -------------- Final loop of PSO, much detailed searching ---------------
         % Plus minus 30 days of the best Launch Date as new search Date
         % In this final loop, no need so much loops, usually one is enough
-        % higher nPop and MaxIt is set for final loop
+        % higher nPop and MaxIte is set for final loop
 
         % Manually give value to one particle? 
         params.IsSpecificPosition = true;

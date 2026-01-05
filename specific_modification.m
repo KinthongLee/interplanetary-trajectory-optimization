@@ -268,7 +268,7 @@ for PHA = 1 : 1
         params.cc = cc; 
         params.cs = cs; 
         % Parameters for First loop of PSO 
-        params.MaxIt = 30;        % Maximum Number of Iterations
+        params.MaxIte = 30;        % Maximum Number of Iterations
         params.nPop = 2;           % Population Size (Swarm Size)
         params.total_loops = 200;      % Total loops 
         params.ShowIterInfo = false; % Flag for Showing Iteration Information
@@ -327,14 +327,14 @@ for PHA = 1 : 1
 % -------------- Final loop of PSO, much detailed searching ---------------
         % Plus minus 30 days of the best Launch Date as new search Date
         % In this final loop, no need so much loops, usually one is enough
-        % higher nPop and MaxIt is set for final loop
+        % higher nPop and MaxIte is set for final loop
         
         % % Manually give value to one particle? 
         % params.IsSpecificPosition = true;
         % % Manually add the best position of first loop to one particle
         % params.specificPosition = out_first(B1).BestSol.Position;
         params.total_loops = 1;      % Total loops 
-        params.MaxIt = 300;        % Maximum Number of Iterations
+        params.MaxIte = 300;        % Maximum Number of Iterations
         params.nPop = 200;
         params.ShowIterInfo = false; % Flag for Showing Iteration Informatin
         fprintf('Calculation for final loop of PSO for %s starts: \n', problem.Target_name);
