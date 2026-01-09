@@ -48,6 +48,14 @@ However for macOS, the first time running would need to approve some system perm
 - The outputs will be stored in:  
   - **`/interplanetary_trajectory_optimization/output_result/figure`**  
   - **`/interplanetary_trajectory_optimization/output_result/animation`**
+  - 
+## Note on Numerical Differences vs. the Paper
+⚠️ **Important:**  
+The numerical results produced by the current version of this code may differ slightly from those reported in the published papers.
+
+Please refer to  
+**[`NOTE_NUMERICAL_DIFFERENCES.md`](./NOTE_NUMERICAL_DIFFERENCES.md)**  
+for a detailed technical explanation.
 
 ## PSO Search Process Animations
 
@@ -59,3 +67,6 @@ https://github.com/user-attachments/assets/d1c2cffd-a14f-4da8-8fa6-f66ab9e65d89
 https://github.com/user-attachments/assets/4bf1cb29-a44d-48b4-b9f1-c532c3f5f9df
 
 ![轨道转移示意图](https://github.com/KinthongLee/interplanetary_trajectory_optimization/blob/main/output_result/figure/detailed_trajectory/Modified/99942Apophis_transfer.png)
+
+---
+
