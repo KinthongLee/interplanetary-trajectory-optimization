@@ -76,30 +76,35 @@ irradiated_face_indices = dot_products < 0;
 
 % Calculate the tangential_vector_t & theta_impact of every faces
 n = -face_normals(irradiated_face_indices,:);  %normal components of face
-k = [0,0,1];
 t = zeros(length(n),3);  % tangential components of face
 theta_impact = zeros(length(n),1);
 for i = 1:size(n,1)
 
-    vr = -v_r_norm(:).';     % ensure row vector
+    vr = v_r_norm(:).';     % ensure row vector
     ni = n(i,:);
 
-    cn = cross(vr, ni);
+    cn = cross(ni,vr);
 
+    % For some special case when vr nearly parallel wiht ni, there are
+    % infinity of possible t. Simply give a k2 vector
     if norm(cn) < 1e-10
-        % 近法向撞击，切向方向物理上本就不唯一
-        % 给一个任意但确定的切向基（例如沿原k轴）
         k2 = [0,0,1];
         if abs(dot(k2,ni)) > 0.99
             k2 = [1,0,0];
         end
         cn = cross(k2, ni);
     end
-
+    
     t(i,:) = cross(cn, ni) / norm(cn);
 
-    theta_impact(i) = acos( dot(v_r_norm, t(i,:)) ...
-                           /(norm(v_r_norm)*norm(t(i,:))) );
+    % Make sure t & vr are same direction
+    if dot(t(i,:), vr) < 0
+        t(i,:) = -t(i,:);
+    end
+
+    % Impact Angle
+    theta_impact(i) = acos( dot(vr, t(i,:)) ...
+                           /(norm(vr)*norm(t(i,:))) );
 end
 
 
@@ -143,7 +148,7 @@ angles_output(1,:) = angles(:,1);
 
 % -------------------- COG strategy (Center of Mass) ----------------------
 % Calculate the faces that irradiated_vector pass though its center of mass
-center_of_mass = mean(vertices);
+center_of_mass = mean(rotated_vertices, 1);
 ray_origin = center_of_mass;
 ray_end = ray_origin - irradiated_vector' * 10;
 
@@ -164,7 +169,9 @@ n_COM = n_COM_all(face_through_COM_indices,:);
 % If multiple faces are hit, pick the one most "facing" the incoming direction.
 if isempty(n_COM)
     error(['COG surface not found: TriangleRayIntersection returned no hit. ', ...
-           'Likely the ray went through an edge; use a finer mesh or rerun.']);
+           'Likely the ray went through an edge; use a finer mesh or rerun it.',...
+           'This is a small probability case, because the default Apophis light-curve model is not fine enough',...
+           'just rerun the code could fix it']);
 end
 if size(n_COM,1) > 1
     % choose face with most negative dot(face_normal, irradiated_vector) i.e. most facing spacecraft
@@ -181,9 +188,9 @@ n_COM = n_COM / norm(n_COM);
 % Define t_COM as the projection of v_r onto the tangent plane of the face:
 % t_COM ∝ v_r_norm - (v_r_norm·n_COM) n_COM
 % This guarantees: t_COM ⟂ n_COM, and {n_COM, t_COM, v_r_norm} are coplanar.
-vr = -v_r_norm(:).';   % row, unit
+vr = v_r_norm(:).';   % row, unit
 
-cn = cross(vr, n_COM);          % this is perpendicular to both v_r and n
+cn = cross(n_COM, vr);          % this is perpendicular to both v_r and n
 if norm(cn) < 1e-12
     % Degenerate: v_r parallel to n (near-normal impact), tangential direction is not unique.
     % Pick a deterministic fallback axis not parallel to n_COM to define a stable tangent.
@@ -197,18 +204,14 @@ end
 t_COM = cross(cn, n_COM);
 t_COM = t_COM / norm(t_COM);   % unit row vector
 
-% Optional: enforce a consistent sign so that t_COM points "with" the tangential component of v_r
+% % Optional: enforce a consistent sign so that t_COM points "with" the tangential component of v_r
 if dot(t_COM, vr) < 0
     t_COM = -t_COM;
 end
 
 % --------- Impact angle definition ----------
-% If you want the angle between v_r and the tangential direction:
-theta_impact_COM = acos( max(-1,min(1, dot(vr, t_COM) )) );
+theta_impact_COM = acos( dot(vr, t_COM) /norm(vr) / norm(t_COM) );
 
-% If you prefer an incidence angle measured from the normal (often more standard):
-% theta_from_normal = acos( max(-1,min(1, dot(vr, n_COM) )) );
-% Then tangential-angle is (pi/2 - theta_from_normal). Choose one and be consistent with your gamma model.
 
 % Your existing gamma mapping uses x in degrees with a piecewise for theta > pi/2
 if theta_impact_COM > pi/2
